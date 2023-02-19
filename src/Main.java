@@ -10,6 +10,8 @@ public class Main {
 
             window.changeColor(100, 0, 0, 255);
 
+            window.FPS();
+
             window.update();
         }
         window.terminate();
