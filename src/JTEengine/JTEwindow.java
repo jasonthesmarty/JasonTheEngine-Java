@@ -12,11 +12,15 @@ public class JTEwindow {
     private int frames;
     private double seconds;
 
+    // Constructor
+
     public JTEwindow(int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;
     }
+
+    // Methods
 
     public void create() {
         GLFW.glfwInit();
@@ -130,8 +134,28 @@ public class JTEwindow {
         }
     }
 
-    // Setters & Getters:
+    // Setters
 
-    
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    // Getters
+
+    public int getWidth() {
+        return this.width;
+    }
+    public int getHeight() {
+        return this.height;
+    }
+    public String getTitle() {
+        return this.title;
+    }
 
 }
