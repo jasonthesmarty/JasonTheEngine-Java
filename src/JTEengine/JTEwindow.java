@@ -9,6 +9,8 @@ public class JTEwindow {
     private int width, height;
     private String title;
     private long window;
+    private int frames;
+    private double seconds;
 
     public JTEwindow(int width, int height, String title) {
         this.width = width;
@@ -118,4 +120,18 @@ public class JTEwindow {
         float[] colors = FloatToFloatColor(color[0], color[1], color[2], color[3]);
         GL11.glClearColor(colors[0], colors[1], colors[2], colors[3]);
     }
+
+    public void FPS() {
+        frames++;
+        if (GLFW.glfwGetTime() > seconds + 1) {
+            System.out.println(frames);
+            seconds = GLFW.glfwGetTime();
+            frames = 0;
+        }
+    }
+
+    // Setters & Getters:
+
+    
+
 }
