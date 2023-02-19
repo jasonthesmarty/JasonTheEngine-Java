@@ -12,6 +12,8 @@ public class JTEwindow {
     private int frames;
     private double seconds;
 
+    JTEinput input = new JTEinput();
+
     // Constructor
 
     public JTEwindow(int width, int height, String title) {
@@ -30,6 +32,10 @@ public class JTEwindow {
         }
 
         window = GLFW.glfwCreateWindow(this.width, this.height, this.title, 0, 0);
+
+        GLFW.glfwSetKeyCallback(window, input.keyboardCallback());
+        GLFW.glfwSetMouseButtonCallback(window, input.mouseButtonCallback());
+        GLFW.glfwSetCursorPosCallback(window, input.mousePositionCallback());
 
         if (window == 0) {
             throw new RuntimeException("Window was not created.");
