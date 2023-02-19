@@ -7,9 +7,11 @@ public class Main {
 
         while(!window.close()) {
             window.startOpenGL();
+
+            window.changeColor(100, 0, 0, 255);
+
             window.update();
         }
         window.terminate();
-
     }
 }
