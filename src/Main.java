@@ -1,5 +1,15 @@
+import JTEengine.JTEwindow;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        JTEwindow window = new JTEwindow(800, 600, "Java Application");
+        window.create();
+
+        while(!window.close()) {
+            window.startOpenGL();
+            window.update();
+        }
+        window.terminate();
+
     }
 }
