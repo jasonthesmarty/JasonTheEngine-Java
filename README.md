@@ -1,2 +1,2 @@
 # JasonTheEngine
-Java GUI Framework thingy
+This is hopefully a Java library/framework to make 2D [graphics] applications, maybe even 3D later... 
