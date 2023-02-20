@@ -1,5 +1,6 @@
-import JTEengine.JTEinput;
-import JTEengine.JTEwindow;
+import JTEengine.Standard.JTEstandard;
+import JTEengine.Window.JTEinput;
+import JTEengine.Window.JTEwindow;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,11 +14,12 @@ public class Main {
 
             window.changeColor(100, 0, 0, 255);
 
+            String contents = JTEstandard.fileContents("..\\JasonTheEngine\\src\\JTEengine\\Shaders\\vertical.glsl");
+            System.out.println(contents);
+
             if (input.keyDown(256)) {
                 break;
             }
-
-            window.FPS();
 
             window.update();
         }
