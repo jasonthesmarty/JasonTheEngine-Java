@@ -1,4 +1,4 @@
-package JTEengine;
+package JTEengine.Window;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
