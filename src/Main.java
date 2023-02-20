@@ -14,6 +14,7 @@ public class Main {
 
         while(!window.close()) {
             window.startOpenGL();
+            shaders.activate();
 
             window.changeColor(100, 0, 0, 255);
 
@@ -21,8 +22,10 @@ public class Main {
                 break;
             }
 
+            shaders.deactivate();
             window.update();
         }
+        shaders.terminate();
         window.terminate();
     }
 }
