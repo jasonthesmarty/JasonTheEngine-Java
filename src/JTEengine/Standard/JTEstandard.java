@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class JTEstandard {
 
+    @SuppressWarnings({"unused", "SpellCheckingInspection"})
     public JTEstandard() {}
 
     public String fileContents(String filename) {
