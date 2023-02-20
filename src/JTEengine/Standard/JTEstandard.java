@@ -8,7 +8,7 @@ public class JTEstandard {
 
     public JTEstandard() {}
 
-    public static String fileContents(String filename) {
+    public String fileContents(String filename) {
         try {
             File file = new File(filename);
             Scanner scanner = new Scanner(file);
