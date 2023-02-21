@@ -54,8 +54,12 @@ public class JTEwindow {
 
     public void startOpenGL() {
         GL.createCapabilities();
+    }
+
+    public void clearColorGL() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GL11.glViewport(0, 0, this.width, this.height);
     }
 
     public boolean close() {
