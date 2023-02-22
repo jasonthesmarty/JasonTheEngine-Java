@@ -1,6 +1,5 @@
 package JTEengine.Window;
 
-import JTEengine.Window.JTEinput;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
