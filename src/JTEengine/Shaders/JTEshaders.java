@@ -1,7 +1,6 @@
 package JTEengine.Shaders;
 
 import JTEengine.Standard.JTEstandard;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -77,6 +76,4 @@ public class JTEshaders {
         System.out.println(this.vertexShaderCode);
         System.out.println(this.fragmentShaderCode);
     }
-
-
 }
