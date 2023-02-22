@@ -1,3 +1,4 @@
+import JTEengine.Shaders.JTEshaders;
 import JTEengine.Standard.JTEstandard;
 import JTEengine.Window.JTEinput;
 import JTEengine.Window.JTEwindow;
@@ -10,16 +11,22 @@ public class Main {
 
         JTEinput input = new JTEinput();
 
+        JTEshaders shaders = new JTEshaders();
+        shaders.createShaders();
+
         JTEstandard std = new JTEstandard();
 
         boolean print = true;
 
         while(!window.close()) {
             window.clearColorGL();
+            shaders.startShaders();
 
             window.changeColor(25, 125, 250, 255);
 
             if (print) {
+                //shaders.getShaderStatus();
+                //shaders.getSources();
                 print = false;
             }
 
@@ -27,8 +34,10 @@ public class Main {
                 break;
             }
 
+            shaders.stopShaders();
             window.update();
         }
+        shaders.terminate();
         window.terminate();
     }
 }
