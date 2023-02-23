@@ -53,8 +53,7 @@ public class Main {
             }
              */
 
-            int[] dimensions = window.getWindowDimensions();
-            System.out.println(Arrays.toString(dimensions));
+            System.out.println(Arrays.toString(window.getWindowDimensions()));
 
             triangle.render();
 
@@ -68,6 +67,7 @@ public class Main {
         triangle.terminate();
 
         shaders.terminate();
+        input.terminate();
         window.terminate();
     }
 }
