@@ -26,7 +26,13 @@ public class Main {
                 0, 1, 2
         };
 
-        JTEpolygon triangle = new JTEpolygon(vertices, indices);
+        float[] colors = {
+                1.0f, 1.0f, 0.5f,
+                1.0f, 0.5f, 1.0f,
+                1.0f, 0.5f, 0.5f
+        };
+
+        JTEpolygon triangle = new JTEpolygon(vertices, indices, colors);
 
         JTEstandard std = new JTEstandard();
 
@@ -55,6 +61,8 @@ public class Main {
             shaders.stopShaders();
             window.update();
         }
+        triangle.terminate();
+
         shaders.terminate();
         window.terminate();
     }
