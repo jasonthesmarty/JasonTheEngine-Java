@@ -4,6 +4,9 @@ import JTEengine.Standard.JTEstandard;
 import JTEengine.Window.JTEinput;
 import JTEengine.Window.JTEwindow;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -21,15 +24,13 @@ public class Main {
                 0.5f, -0.5f, 0.0f,
                 0.0f, 0.5f, 0.0f
         };
-
         int[] indices = {
                 0, 1, 2
         };
-
         float[] colors = {
-                1.0f, 1.0f, 0.5f,
-                1.0f, 0.5f, 1.0f,
-                1.0f, 0.5f, 0.5f
+                0.05f, 1.0f, 0.5f,
+                1.0f, 0.0f, 1.0f,
+                0.0f, 0.75f, 1.0f
         };
 
         JTEpolygon triangle = new JTEpolygon(vertices, indices, colors);
@@ -51,6 +52,9 @@ public class Main {
                 print = false;
             }
              */
+
+            int[] dimensions = window.getWindowDimensions();
+            System.out.println(Arrays.toString(dimensions));
 
             triangle.render();
 
