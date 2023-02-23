@@ -167,5 +167,11 @@ public class JTEwindow {
     public String getTitle() {
         return this.title;
     }
+    public int[] getWindowDimensions() {
+        int[] width = new int[1];
+        int[] height = new int[1];
+        GLFW.glfwGetWindowSize(window, width, height);
+        return new int[]{width[0], height[0]};
+    }
 
 }
