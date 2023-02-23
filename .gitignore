@@ -6,7 +6,7 @@ JasonTheEngine.iml
 .iml
 .xml
 .idea/
-.log
+*.log
 
 ### Eclipse ###
 .apt_generated
