@@ -4,7 +4,6 @@ import JTEengine.Standard.JTEstandard;
 import JTEengine.Window.JTEinput;
 import JTEengine.Window.JTEwindow;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
