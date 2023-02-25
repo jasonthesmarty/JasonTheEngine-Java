@@ -9,36 +9,16 @@ import org.lwjgl.opengl.GL30;
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEpolygon {
 
-    private int VAO, VBO, IBO, CBO;
-    float[] vertices;
-    int[] indices;
+    private final JTEshapeBuffer shapeBuffer;
 
     public JTEpolygon(float[] vertices, int[] indices, float[] colors) {
-        this.vertices = vertices;
-        this.indices = indices;
-
-        VAO = GL30.glGenVertexArrays();
-        GL30.glBindVertexArray(VAO);
-
-        VBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, VBO);
-        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
-
-        IBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, IBO);
-        GL30.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-
-        CBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, CBO);
-        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, colors, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
+        shapeBuffer = new JTEshapeBuffer(vertices, indices, colors);
     }
 
     public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int red, int green, int blue, int alpha) {
         int[] dimensions = window.getWindowDimensions();
-        this.vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
-        this.indices = new int[]{0, 1, 2, 2, 0, 3};
+        float[] vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
+        int[] indices = new int[]{0, 1, 2, 2, 0, 3};
         float[] Colors = FloatToFloatColor((float)red, (float)green, (float)blue, (float)alpha);
         float[] colors = {
                 Colors[0], Colors[1], Colors[2],
@@ -47,42 +27,49 @@ public class JTEpolygon {
                 Colors[0], Colors[1], Colors[2]
         };
 
-        VAO = GL30.glGenVertexArrays();
-        GL30.glBindVertexArray(VAO);
+        shapeBuffer = new JTEshapeBuffer(vertices, indices, colors);
+    }
 
-        VBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, VBO);
-        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
+    public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int[] color) {
+        int[] dimensions = window.getWindowDimensions();
+        float[] vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
+        int[] indices = new int[]{0, 1, 2, 2, 0, 3};
+        float[] Colors = FloatToFloatColor((float)color[0], (float)color[1], (float)color[2], (float)color[3]);
+        float[] colors = {
+                Colors[0], Colors[1], Colors[2],
+                Colors[0], Colors[1], Colors[2],
+                Colors[0], Colors[1], Colors[2],
+                Colors[0], Colors[1], Colors[2]
+        };
 
-        IBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, IBO);
-        GL30.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+        shapeBuffer = new JTEshapeBuffer(vertices, indices, colors);
+    }
 
-        CBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, CBO);
-        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, colors, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
+    public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int[] color1, int[] color2, int[] color3, int[] color4) {
+        int[] dimensions = window.getWindowDimensions();
+        float[] vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
+        int[] indices = new int[]{0, 1, 2, 2, 0, 3};
+        float[] Colors1 = FloatToFloatColor((float)color1[0], (float)color1[1], (float)color1[2], (float)color1[3]);
+        float[] Colors2 = FloatToFloatColor((float)color2[0], (float)color2[1], (float)color2[2], (float)color2[3]);
+        float[] Colors3 = FloatToFloatColor((float)color3[0], (float)color3[1], (float)color3[2], (float)color3[3]);
+        float[] Colors4 = FloatToFloatColor((float)color4[0], (float)color4[1], (float)color4[2], (float)color4[3]);
+
+        float[] Colors = {
+                Colors1[0], Colors1[1], Colors2[2],
+                Colors2[0], Colors2[1], Colors2[2],
+                Colors3[0], Colors3[1], Colors3[2],
+                Colors4[0], Colors4[1], Colors4[2]
+        };
+
+        shapeBuffer = new JTEshapeBuffer(vertices, indices, Colors);
     }
 
     public void render() {
-        GL30.glBindVertexArray(VAO);
-        GL30.glEnableVertexAttribArray(0);
-        GL30.glEnableVertexAttribArray(1);
-
-        GL30.glDrawElements(GL11.GL_TRIANGLES, this.indices.length, GL11.GL_UNSIGNED_INT, 0);
+        shapeBuffer.render();
     }
 
     public void terminate() {
-        GL30.glBindVertexArray(0);
-        GL30.glDeleteVertexArrays(VAO);
-        GL30.glDisableVertexAttribArray(0);
-        GL30.glDisableVertexAttribArray(1);
-
-        GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
-        GL30.glDeleteBuffers(VBO);
-        GL30.glDeleteBuffers(IBO);
-        GL30.glDeleteBuffers(CBO);
+        shapeBuffer.terminate();
     }
 
     private float[] coordinatesToPixels(int x, int y, int width, int height, int windowWidth, int windowHeight) {
@@ -151,5 +138,55 @@ public class JTEpolygon {
         }
 
         return colors;
+    }
+}
+
+@SuppressWarnings({"SpellCheckingInspection", "unused"})
+class JTEshapeBuffer {
+
+    private final int VAO, VBO, IBO, CBO;
+    float[] vertices;
+    int[] indices;
+
+    public JTEshapeBuffer(float[] vertices, int[] indices, float[] colors) {
+        this.vertices = vertices;
+        this.indices = indices;
+
+        VAO = GL30.glGenVertexArrays();
+        GL30.glBindVertexArray(VAO);
+
+        VBO = GL30.glGenBuffers();
+        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, VBO);
+        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
+
+        IBO = GL30.glGenBuffers();
+        GL30.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, IBO);
+        GL30.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+
+        CBO = GL30.glGenBuffers();
+        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, CBO);
+        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, colors, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
+    }
+
+    public void render() {
+        GL30.glBindVertexArray(VAO);
+        GL30.glEnableVertexAttribArray(0);
+        GL30.glEnableVertexAttribArray(1);
+
+        GL30.glDrawElements(GL11.GL_TRIANGLES, this.indices.length, GL11.GL_UNSIGNED_INT, 0);
+    }
+
+    public void terminate() {
+        GL30.glBindVertexArray(0);
+        GL30.glDeleteVertexArrays(VAO);
+        GL30.glDisableVertexAttribArray(0);
+        GL30.glDisableVertexAttribArray(1);
+
+        GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
+        GL30.glDeleteBuffers(VBO);
+        GL30.glDeleteBuffers(IBO);
+        GL30.glDeleteBuffers(CBO);
     }
 }
