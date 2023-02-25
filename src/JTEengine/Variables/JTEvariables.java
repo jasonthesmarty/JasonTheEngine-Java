@@ -5,7 +5,7 @@ public class JTEvariables {
 
     // Colors:
 
-    public static final int[] COLOR_RED_RGBA = {255, 0 , 0, 255};
+    public static final int[] COLOR_RED_RGBA = {255, 0, 0, 255};
     public static final int[] COLOR_ORANGE_RGBA = {255, 165, 0, 255};
     public static final int[] COLOR_YELLOW_RGBA = {255, 255, 0, 255};
     public static final int[] COLOR_GREEN_RGBA = {0, 255, 0, 255};
