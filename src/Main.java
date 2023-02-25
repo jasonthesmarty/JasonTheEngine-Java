@@ -6,6 +6,8 @@ import JTEengine.Window.JTEwindow;
 
 import java.util.Arrays;
 
+import static JTEengine.Variables.JTEvariables.*;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -32,9 +34,7 @@ public class Main {
                 0.0f, 0.75f, 1.0f
         };
 
-        JTEpolygon triangle = new JTEpolygon(vertices, indices, colors);
-
-        JTEpolygon poly = new JTEpolygon(window, 400, 225, 800, 450, 100, 100, 100, 100);
+        JTEpolygon poly = new JTEpolygon(window, 400, 225, 800, 450, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_BLACK_RGBA);
 
         JTEstandard std = new JTEstandard();
 
@@ -56,7 +56,6 @@ public class Main {
 
             System.out.println(Arrays.toString(window.getWindowDimensions()));
 
-            triangle.render();
             poly.render();
 
             if (input.keyDown(256)) {
@@ -67,7 +66,6 @@ public class Main {
             window.update();
         }
         poly.terminate();
-        triangle.terminate();
 
         shaders.terminate();
         input.terminate();
