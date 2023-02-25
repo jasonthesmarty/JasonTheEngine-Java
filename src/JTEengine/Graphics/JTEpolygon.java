@@ -11,7 +11,8 @@ public class JTEpolygon {
 
     private float [] vertices, colors;
     private int[] indices;
-    private int x, y, width, height, type, red, green, blue, alpha;
+    private int type, red, green, blue, alpha;
+    private float x, y, width, height;
     private int[] color;
     private int[] color1, color2, color3, color4;
     private JTEshapeBuffer shapeBuffer;
@@ -24,7 +25,7 @@ public class JTEpolygon {
         this.type = 1;
     }
 
-    public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int red, int green, int blue, int alpha) {
+    public JTEpolygon(JTEwindow window, float x, float y, float width, float height, int red, int green, int blue, int alpha) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -37,7 +38,7 @@ public class JTEpolygon {
         this.type = 2;
     }
 
-    public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int[] color) {
+    public JTEpolygon(JTEwindow window, float x, float y, float width, float height, int[] color) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -47,7 +48,7 @@ public class JTEpolygon {
         this.type = 3;
     }
 
-    public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int[] color1, int[] color2, int[] color3, int[] color4) {
+    public JTEpolygon(JTEwindow window, float x, float y, float width, float height, int[] color1, int[] color2, int[] color3, int[] color4) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -66,8 +67,7 @@ public class JTEpolygon {
             shapeBuffer.render();
         }
         else if (this.type == 2) {
-            int[] dimensions = this.window.getWindowDimensions();
-            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, dimensions[0], dimensions[1]);
+            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, this.window);
             this.indices = new int[]{0, 1, 2, 2, 0, 3};
             float[] Colors = FloatToFloatColor((float)this.red, (float)this.green, (float)this.blue, (float)this.alpha);
             this.colors = new float[]{
@@ -81,8 +81,7 @@ public class JTEpolygon {
             shapeBuffer.render();
         }
         else if (this.type == 3) {
-            int[] dimensions = this.window.getWindowDimensions();
-            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, dimensions[0], dimensions[1]);
+            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, this.window);
             this.indices = new int[]{0, 1, 2, 2, 0, 3};
             float[] Colors = FloatToFloatColor((float)this.color[0], (float)this.color[1], (float)this.color[2], (float)this.color[3]);
             this.colors = new float[]{
@@ -96,8 +95,7 @@ public class JTEpolygon {
             shapeBuffer.render();
         }
         else if (this.type == 4) {
-            int[] dimensions = this.window.getWindowDimensions();
-            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, dimensions[0], dimensions[1]);
+            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, this.window);
             this.indices = new int[]{0, 1, 3, 3, 1, 2};
             float[] Colors1 = FloatToFloatColor((float)this.color1[0], (float)this.color1[1], (float)this.color1[2], (float)this.color1[3]);
             float[] Colors2 = FloatToFloatColor((float)this.color2[0], (float)this.color2[1], (float)this.color2[2], (float)this.color2[3]);
@@ -201,23 +199,23 @@ public class JTEpolygon {
 
     // Getters:
 
-    public int getX() {
+    public float getX() {
         return this.x;
     }
-    public int getY() {
+    public float getY() {
         return this.y;
     }
-    public int getWidth() {
+    public float getWidth() {
         return this.width;
     }
-    public int getHeight() {
+    public float getHeight() {
         return this.height;
     }
 
 
-    private float[] coordinatesToPixels(int x, int y, int width, int height, int windowWidth, int windowHeight) {
-        double widthHalved = (double)windowWidth/2;
-        double heightHalved = (double)windowHeight/2;
+    private float[] coordinatesToPixels(float x, float y, float width, float height, JTEwindow window) {
+        double widthHalved = (double)window.getWidth()/2;
+        double heightHalved = (double)window.getHeight()/2;
 
         float X = (float)((1 - ((double)x / widthHalved)) * -1);
         float Y = (float)(1 - ((double)y / heightHalved));
