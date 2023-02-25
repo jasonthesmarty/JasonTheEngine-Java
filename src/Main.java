@@ -34,6 +34,8 @@ public class Main {
 
         JTEpolygon triangle = new JTEpolygon(vertices, indices, colors);
 
+        JTEpolygon poly = new JTEpolygon(window, 400, 225, 800, 450, 100, 100, 100, 100);
+
         JTEstandard std = new JTEstandard();
 
         boolean print = true;
@@ -55,6 +57,7 @@ public class Main {
             System.out.println(Arrays.toString(window.getWindowDimensions()));
 
             triangle.render();
+            poly.render();
 
             if (input.keyDown(256)) {
                 break;
@@ -63,6 +66,7 @@ public class Main {
             shaders.stopShaders();
             window.update();
         }
+        poly.terminate();
         triangle.terminate();
 
         shaders.terminate();
