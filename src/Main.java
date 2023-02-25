@@ -42,14 +42,17 @@ public class Main {
 
         while(!window.close()) {
             window.clearColorGL();
+            window.updateGLViewport();
             shaders.startShaders();
 
             window.changeColor(25, 125, 250, 255);
 
-            double[] mousePos = input.getMousePosition();
+            float[] mousePos = window.getMousePosition();
 
             poly.setX((int)mousePos[0]);
             poly.setY((int)mousePos[1]);
+
+            System.out.println(Arrays.toString(window.getMousePosition()));
 
             if (input.keyDown(48)) {
                 poly.setColor1(COLOR_BLACK_RGBA);
