@@ -34,7 +34,7 @@ public class Main {
                 0.0f, 0.75f, 1.0f
         };
 
-        JTEpolygon poly = new JTEpolygon(window, 400, 225, 800, 450, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_BLACK_RGBA);
+        JTEpolygon poly = new JTEpolygon(window, 10, 10, 100, 100, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_BLACK_RGBA);
 
         JTEstandard std = new JTEstandard();
 
@@ -46,6 +46,24 @@ public class Main {
 
             window.changeColor(25, 125, 250, 255);
 
+            double[] mousePos = input.getMousePosition();
+
+            poly.setX((int)mousePos[0]);
+            poly.setY((int)mousePos[1]);
+
+            if (input.keyDown(48)) {
+                poly.setColor1(COLOR_BLACK_RGBA);
+                poly.setColor2(COLOR_BLACK_RGBA);
+                poly.setColor3(COLOR_WHITE_RGBA);
+                poly.setColor4(COLOR_WHITE_RGBA);
+            }
+            else {
+                poly.setColor1(COLOR_WHITE_RGBA);
+                poly.setColor2(COLOR_WHITE_RGBA);
+                poly.setColor3(COLOR_BLACK_RGBA);
+                poly.setColor4(COLOR_BLACK_RGBA);
+            }
+
             /*
             if (print) {
                 shaders.getShaderStatus();
@@ -53,8 +71,6 @@ public class Main {
                 print = false;
             }
              */
-
-            System.out.println(Arrays.toString(window.getWindowDimensions()));
 
             poly.render();
 
