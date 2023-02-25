@@ -53,12 +53,17 @@ public class JTEwindow {
 
     public void startOpenGL() {
         GL.createCapabilities();
+        GL11.glViewport(0, 0, this.width, this.height);
+    }
+
+    public void updateGLViewport() {
+        int[] dimensions = getWindowDimensions();
+        GL11.glViewport(0, 0, dimensions[0], dimensions[1]);
     }
 
     public void clearColorGL() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        GL11.glViewport(0, 0, this.width, this.height);
     }
 
     public boolean close() {
@@ -172,6 +177,15 @@ public class JTEwindow {
         int[] height = new int[1];
         GLFW.glfwGetWindowSize(window, width, height);
         return new int[]{width[0], height[0]};
+    }
+    public float[] getMousePosition() {
+        int[] dimensions = getWindowDimensions();
+        float widthRatio = (float)dimensions[0]/this.width;
+        float heightRatio = (float)dimensions[1]/this.height;
+
+        double[] mousePos = input.getMousePosition();
+
+        return new float[] {((float)mousePos[0]/widthRatio), ((float)mousePos[1]/heightRatio)};
     }
 
 }
