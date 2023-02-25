@@ -9,75 +9,218 @@ import org.lwjgl.opengl.GL30;
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEpolygon {
 
-    private final JTEshapeBuffer shapeBuffer;
+    private float [] vertices, colors;
+    private int[] indices;
+    private int x, y, width, height, type, red, green, blue, alpha;
+    private int[] color;
+    private int[] color1, color2, color3, color4;
+    private JTEshapeBuffer shapeBuffer;
+    private JTEwindow window;
 
     public JTEpolygon(float[] vertices, int[] indices, float[] colors) {
-        shapeBuffer = new JTEshapeBuffer(vertices, indices, colors);
+        this.vertices = vertices;
+        this.indices = indices;
+        this.colors = colors;
+        this.type = 1;
     }
 
     public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int red, int green, int blue, int alpha) {
-        int[] dimensions = window.getWindowDimensions();
-        float[] vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
-        int[] indices = new int[]{0, 1, 2, 2, 0, 3};
-        float[] Colors = FloatToFloatColor((float)red, (float)green, (float)blue, (float)alpha);
-        float[] colors = {
-                Colors[0], Colors[1], Colors[2],
-                Colors[0], Colors[1], Colors[2],
-                Colors[0], Colors[1], Colors[2],
-                Colors[0], Colors[1], Colors[2]
-        };
-
-        shapeBuffer = new JTEshapeBuffer(vertices, indices, colors);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
+        this.window = window;
+        this.type = 2;
     }
 
     public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int[] color) {
-        int[] dimensions = window.getWindowDimensions();
-        float[] vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
-        int[] indices = new int[]{0, 1, 2, 2, 0, 3};
-        float[] Colors = FloatToFloatColor((float)color[0], (float)color[1], (float)color[2], (float)color[3]);
-        float[] colors = {
-                Colors[0], Colors[1], Colors[2],
-                Colors[0], Colors[1], Colors[2],
-                Colors[0], Colors[1], Colors[2],
-                Colors[0], Colors[1], Colors[2]
-        };
-
-        shapeBuffer = new JTEshapeBuffer(vertices, indices, colors);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.window = window;
+        this.type = 3;
     }
 
     public JTEpolygon(JTEwindow window, int x, int y, int width, int height, int[] color1, int[] color2, int[] color3, int[] color4) {
-        int[] dimensions = window.getWindowDimensions();
-        float[] vertices = coordinatesToPixels(x, y, width, height, dimensions[0], dimensions[1]);
-        int[] indices = new int[]{0, 1, 2, 2, 0, 3};
-        float[] Colors1 = FloatToFloatColor((float)color1[0], (float)color1[1], (float)color1[2], (float)color1[3]);
-        float[] Colors2 = FloatToFloatColor((float)color2[0], (float)color2[1], (float)color2[2], (float)color2[3]);
-        float[] Colors3 = FloatToFloatColor((float)color3[0], (float)color3[1], (float)color3[2], (float)color3[3]);
-        float[] Colors4 = FloatToFloatColor((float)color4[0], (float)color4[1], (float)color4[2], (float)color4[3]);
-
-        float[] Colors = {
-                Colors1[0], Colors1[1], Colors2[2],
-                Colors2[0], Colors2[1], Colors2[2],
-                Colors3[0], Colors3[1], Colors3[2],
-                Colors4[0], Colors4[1], Colors4[2]
-        };
-
-        shapeBuffer = new JTEshapeBuffer(vertices, indices, Colors);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color1 = color1;
+        this.color2 = color2;
+        this.color3 = color3;
+        this.color4 = color4;
+        this.window = window;
+        this.type = 4;
     }
 
     public void render() {
-        shapeBuffer.render();
+        if (this.type == 1) {
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer.render();
+        }
+        else if (this.type == 2) {
+            int[] dimensions = this.window.getWindowDimensions();
+            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, dimensions[0], dimensions[1]);
+            this.indices = new int[]{0, 1, 2, 2, 0, 3};
+            float[] Colors = FloatToFloatColor((float)this.red, (float)this.green, (float)this.blue, (float)this.alpha);
+            this.colors = new float[]{
+                    Colors[0], Colors[1], Colors[2],
+                    Colors[0], Colors[1], Colors[2],
+                    Colors[0], Colors[1], Colors[2],
+                    Colors[0], Colors[1], Colors[2]
+            };
+
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer.render();
+        }
+        else if (this.type == 3) {
+            int[] dimensions = this.window.getWindowDimensions();
+            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, dimensions[0], dimensions[1]);
+            this.indices = new int[]{0, 1, 2, 2, 0, 3};
+            float[] Colors = FloatToFloatColor((float)this.color[0], (float)this.color[1], (float)this.color[2], (float)this.color[3]);
+            this.colors = new float[]{
+                    Colors[0], Colors[1], Colors[2],
+                    Colors[0], Colors[1], Colors[2],
+                    Colors[0], Colors[1], Colors[2],
+                    Colors[0], Colors[1], Colors[2]
+            };
+
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer.render();
+        }
+        else if (this.type == 4) {
+            int[] dimensions = this.window.getWindowDimensions();
+            this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, dimensions[0], dimensions[1]);
+            this.indices = new int[]{0, 1, 3, 3, 1, 2};
+            float[] Colors1 = FloatToFloatColor((float)this.color1[0], (float)this.color1[1], (float)this.color1[2], (float)this.color1[3]);
+            float[] Colors2 = FloatToFloatColor((float)this.color2[0], (float)this.color2[1], (float)this.color2[2], (float)this.color2[3]);
+            float[] Colors3 = FloatToFloatColor((float)this.color3[0], (float)this.color3[1], (float)this.color3[2], (float)this.color3[3]);
+            float[] Colors4 = FloatToFloatColor((float)this.color4[0], (float)this.color4[1], (float)this.color4[2], (float)this.color4[3]);
+
+            this.colors = new float[]{
+                    Colors1[0], Colors1[1], Colors2[2],
+                    Colors2[0], Colors2[1], Colors2[2],
+                    Colors3[0], Colors3[1], Colors3[2],
+                    Colors4[0], Colors4[1], Colors4[2]
+            };
+
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer.render();
+        }
     }
 
     public void terminate() {
         shapeBuffer.terminate();
     }
 
+    // Setters:
+
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public void setRed(int red) {
+        if (this.type == 2) {
+            this.red = red;
+        }
+        else {
+            System.err.println("This constructor does not support the value red.");
+        }
+    }
+    public void setGreen(int green) {
+        if (this.type == 2) {
+            this.green = green;
+        }
+        else {
+            System.err.println("This constructor does not support the value green.");
+        }
+    }
+    public void setBlue(int blue) {
+        if (this.type == 2) {
+            this.blue = blue;
+        }
+        else {
+            System.err.println("This constructor does not support the value blue.");
+        }
+    }
+    public void setColor(int[] color) {
+        if (this.type == 3) {
+            this.color = color;
+        }
+        else {
+            System.err.println("This constructor does not support color in an array format.");
+        }
+    }
+    public void setColor1(int[] color1) {
+        if (this.type == 4) {
+            this.color1 = color1;
+        }
+        else {
+            System.err.println("This constructor does not support color in an quad array format.");
+        }
+    }
+    public void setColor2(int[] color2) {
+        if (this.type == 4) {
+            this.color2 = color2;
+        }
+        else {
+            System.err.println("This constructor does not support color in an quad array format.");
+        }
+    }
+    public void setColor3(int[] color3) {
+        if (this.type == 4) {
+            this.color3 = color3;
+        }
+        else {
+            System.err.println("This constructor does not support color in an quad array format.");
+        }
+    }
+    public void setColor4(int[] color4) {
+        if (this.type == 4) {
+            this.color4 = color4;
+        }
+        else {
+            System.err.println("This constructor does not support color in an quad array format.");
+        }
+    }
+
+    // Getters:
+
+    public int getX() {
+        return this.x;
+    }
+    public int getY() {
+        return this.y;
+    }
+    public int getWidth() {
+        return this.width;
+    }
+    public int getHeight() {
+        return this.height;
+    }
+
+
     private float[] coordinatesToPixels(int x, int y, int width, int height, int windowWidth, int windowHeight) {
         double widthHalved = (double)windowWidth/2;
         double heightHalved = (double)windowHeight/2;
 
         float X = (float)((1 - ((double)x / widthHalved)) * -1);
-        float Y = (float) ((1 - ((double)y / heightHalved)) * -1);
+        float Y = (float)(1 - ((double)y / heightHalved));
 
         float Width = (float)((double)width/widthHalved);
         float Height = (float)((double)height/heightHalved);
@@ -85,8 +228,8 @@ public class JTEpolygon {
         return new float[] {
                 X, Y, 0.0f,
                 X + Width, Y, 0.0f,
-                X + Width, Y + Height, 0.0f,
-                X, Y + Width, 0.0f
+                X + Width, Y - Height, 0.0f,
+                X, Y - Height, 0.0f
         };
     }
 
