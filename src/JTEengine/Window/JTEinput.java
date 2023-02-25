@@ -74,11 +74,8 @@ public class JTEinput {
 
     public void terminate() {
         keyboard.free();
-        keyboard.close();
         mouse.free();
-        mouse.close();
         position.free();
-        position.close();
     }
 
     // Checking functions for keys/buttons
