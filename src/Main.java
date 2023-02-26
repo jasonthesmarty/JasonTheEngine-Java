@@ -20,25 +20,18 @@ public class Main {
         JTEshaders shaders = new JTEshaders();
         shaders.createShaders();
 
-        float[] vertices = {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.0f, 0.5f, 0.0f
-        };
-        int[] indices = {
-                0, 1, 2
-        };
-        float[] colors = {
-                0.05f, 1.0f, 0.5f,
-                1.0f, 0.0f, 1.0f,
-                0.0f, 0.75f, 1.0f
-        };
-
         JTEpolygon poly = new JTEpolygon(window, 10, 10, 100, 100, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_BLACK_RGBA);
+        JTEpolygon polyHighlight = new JTEpolygon(window, 0, 0, 120, 120, COLOR_YELLOW_RGBA);
+
+        JTEpolygon ground = new JTEpolygon(window, 0, 700, 1600, 200, COLOR_GRAY_RGBA, COLOR_GRAY_RGBA, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA);
 
         JTEstandard std = new JTEstandard();
 
         boolean print = true;
+        boolean clicking = false;
+
+
+        int falling = 0;
 
         while(!window.close()) {
             window.clearColorGL();
@@ -49,10 +42,35 @@ public class Main {
 
             float[] mousePos = window.getMousePosition();
 
-            poly.setX((int)mousePos[0]);
-            poly.setY((int)mousePos[1]);
+            boolean hitboxX = !(mousePos[0] < poly.getX() || mousePos[0] > (poly.getX()+poly.getWidth()));
+            boolean hitboxY = !(mousePos[1] < poly.getY() || mousePos[1] > (poly.getY()+poly.getHeight()));
 
-            System.out.println(Arrays.toString(window.getMousePosition()));
+            if (poly.getY() < 600 && clicking) {
+                if (poly.getY() + falling > 600) {
+                    int last = 600 - (int)poly.getY();
+                    poly.setY((int)(poly.getY()+last));
+                    falling = 0;
+                }
+                else {
+                    poly.setY((int)(poly.getY()+falling));
+                    falling += 2;
+                }
+            }
+            if (input.mouseDown(0)) {
+                if (hitboxX && hitboxY) {
+                    falling = 0;
+                    System.out.println(true);
+                    polyHighlight.setX((int) poly.getX() - 10);
+                    polyHighlight.setY((int) poly.getY() - 10);
+                    polyHighlight.render();
+                    poly.setX((int) mousePos[0] - (int) poly.getWidth() / 2);
+                    poly.setY((int) mousePos[1] - (int) poly.getHeight() / 2);
+                    clicking = true;
+                }
+            }
+
+
+            //System.out.println(Arrays.toString(window.getMousePosition()));
 
             if (input.keyDown(48)) {
                 poly.setColor1(COLOR_BLACK_RGBA);
@@ -75,7 +93,9 @@ public class Main {
             }
              */
 
+
             poly.render();
+            ground.render();
 
             if (input.keyDown(256)) {
                 break;
@@ -84,6 +104,7 @@ public class Main {
             shaders.stopShaders();
             window.update();
         }
+        ground.terminate();
         poly.terminate();
 
         shaders.terminate();
