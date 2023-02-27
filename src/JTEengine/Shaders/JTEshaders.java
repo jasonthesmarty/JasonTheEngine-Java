@@ -76,4 +76,8 @@ public class JTEshaders {
         System.out.println(this.vertexShaderCode);
         System.out.println(this.fragmentShaderCode);
     }
+
+    public int getShader() {
+        return shaderProgram;
+    }
 }
