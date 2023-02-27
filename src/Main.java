@@ -1,3 +1,4 @@
+import JTEengine.Graphics.JTEimage;
 import JTEengine.Graphics.JTEpolygon;
 import JTEengine.Shaders.JTEshaders;
 import JTEengine.Standard.JTEstandard;
@@ -27,12 +28,6 @@ public class Main {
 
         JTEstandard std = new JTEstandard();
 
-        boolean print = true;
-        boolean clicking = false;
-
-
-        int falling = 0;
-
         while(!window.close()) {
             window.clearColorGL();
             window.updateGLViewport();
@@ -40,61 +35,10 @@ public class Main {
 
             window.changeColor(25, 125, 250, 255);
 
-            float[] mousePos = window.getMousePosition();
+            JTEimage image = new JTEimage("..\\JasonTheEngine\\src\\awesomeface.png", shaders);
+            image.render();
 
-            boolean hitboxX = !(mousePos[0] < poly.getX() || mousePos[0] > (poly.getX()+poly.getWidth()));
-            boolean hitboxY = !(mousePos[1] < poly.getY() || mousePos[1] > (poly.getY()+poly.getHeight()));
-
-            if (poly.getY() < 600 && clicking) {
-                if (poly.getY() + falling > 600) {
-                    int last = 600 - (int)poly.getY();
-                    poly.setY((int)(poly.getY()+last));
-                    falling = 0;
-                }
-                else {
-                    poly.setY((int)(poly.getY()+falling));
-                    falling += 2;
-                }
-            }
-            if (input.mouseDown(0)) {
-                if (hitboxX && hitboxY) {
-                    falling = 0;
-                    System.out.println(true);
-                    polyHighlight.setX((int) poly.getX() - 10);
-                    polyHighlight.setY((int) poly.getY() - 10);
-                    polyHighlight.render();
-                    poly.setX((int) mousePos[0] - (int) poly.getWidth() / 2);
-                    poly.setY((int) mousePos[1] - (int) poly.getHeight() / 2);
-                    clicking = true;
-                }
-            }
-
-
-            //System.out.println(Arrays.toString(window.getMousePosition()));
-
-            if (input.keyDown(48)) {
-                poly.setColor1(COLOR_BLACK_RGBA);
-                poly.setColor2(COLOR_BLACK_RGBA);
-                poly.setColor3(COLOR_WHITE_RGBA);
-                poly.setColor4(COLOR_WHITE_RGBA);
-            }
-            else {
-                poly.setColor1(COLOR_WHITE_RGBA);
-                poly.setColor2(COLOR_WHITE_RGBA);
-                poly.setColor3(COLOR_BLACK_RGBA);
-                poly.setColor4(COLOR_BLACK_RGBA);
-            }
-
-            /*
-            if (print) {
-                shaders.getShaderStatus();
-                shaders.getSources();
-                print = false;
-            }
-             */
-
-
-            poly.render();
+            //poly.render();
             ground.render();
 
             if (input.keyDown(256)) {
@@ -104,8 +48,10 @@ public class Main {
             shaders.stopShaders();
             window.update();
         }
+
+
         ground.terminate();
-        poly.terminate();
+        //poly.terminate();
 
         shaders.terminate();
         input.terminate();
