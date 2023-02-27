@@ -68,7 +68,7 @@ public class JTEpolygon {
         }
         else if (this.type == 2) {
             this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, this.window);
-            this.indices = new int[]{0, 1, 2, 2, 0, 3};
+            this.indices = new int[]{0, 1, 3, 3, 1, 2};
             float[] Colors = FloatToFloatColor((float)this.red, (float)this.green, (float)this.blue, (float)this.alpha);
             this.colors = new float[]{
                     Colors[0], Colors[1], Colors[2],
@@ -82,7 +82,7 @@ public class JTEpolygon {
         }
         else if (this.type == 3) {
             this.vertices = coordinatesToPixels(this.x, this.y, this.width, this.height, this.window);
-            this.indices = new int[]{0, 1, 2, 2, 0, 3};
+            this.indices = new int[]{0, 1, 3, 3, 1, 2};
             float[] Colors = FloatToFloatColor((float)this.color[0], (float)this.color[1], (float)this.color[2], (float)this.color[3]);
             this.colors = new float[]{
                     Colors[0], Colors[1], Colors[2],
