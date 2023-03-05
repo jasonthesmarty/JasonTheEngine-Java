@@ -12,12 +12,18 @@ import java.nio.IntBuffer;
 public class JTEimage {
 
     private int[] width, height, channels;
-    private final int VAO, VBO, IBO, IMGBO;
+    private int VAO, VBO, IBO, IMGBO;
     private int textureID;
     float[] vertices, texture, colors;
     int[] indices;
+    JTEshaders shader;
+    String filename;
 
-    public JTEimage(String filename, JTEshaders shader) {
+    public JTEimage(String filename) {
+        this.filename = filename;
+    }
+
+    public void render() {
         IntBuffer width = BufferUtils.createIntBuffer(1);
         IntBuffer height = BufferUtils.createIntBuffer(1);
         IntBuffer channels = BufferUtils.createIntBuffer(1);
@@ -63,9 +69,6 @@ public class JTEimage {
         GL30.glBufferData(GL15.GL_ARRAY_BUFFER, texture, GL15.GL_STATIC_DRAW);
         GL20.glVertexAttribPointer(2, 2, GL11.GL_FLOAT, false, 0, 0);
 
-    }
-
-    public void render() {
         GL30.glBindVertexArray(VAO);
         GL30.glEnableVertexAttribArray(0);
 
