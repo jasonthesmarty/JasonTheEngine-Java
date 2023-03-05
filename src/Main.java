@@ -21,10 +21,9 @@ public class Main {
         JTEshaders shaders = new JTEshaders();
         shaders.createShaders();
 
-        JTEpolygon poly = new JTEpolygon(window, 10, 10, 100, 100, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_BLACK_RGBA);
-        JTEpolygon polyHighlight = new JTEpolygon(window, 0, 0, 120, 120, COLOR_YELLOW_RGBA);
+        JTEpolygon poly = new JTEpolygon(window, 100, 100, 200, 200, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA);
 
-        JTEpolygon ground = new JTEpolygon(window, 0, 700, 1600, 200, COLOR_GRAY_RGBA, COLOR_GRAY_RGBA, COLOR_WHITE_RGBA, COLOR_WHITE_RGBA);
+        JTEimage image = new JTEimage("..\\JasonTheEngine\\src\\awesomeface.png");
 
         JTEstandard std = new JTEstandard();
 
@@ -35,11 +34,9 @@ public class Main {
 
             window.changeColor(25, 125, 250, 255);
 
-            JTEimage image = new JTEimage("..\\JasonTheEngine\\src\\awesomeface.png", shaders);
-            image.render();
+            poly.render();
 
-            //poly.render();
-            ground.render();
+            image.render();
 
             if (input.keyDown(256)) {
                 break;
@@ -48,10 +45,9 @@ public class Main {
             shaders.stopShaders();
             window.update();
         }
+        //image.terminate();
 
-
-        ground.terminate();
-        //poly.terminate();
+        poly.terminate();
 
         shaders.terminate();
         input.terminate();
