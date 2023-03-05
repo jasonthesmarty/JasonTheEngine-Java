@@ -103,7 +103,7 @@ public class JTEpolygon {
             float[] Colors4 = FloatToFloatColor((float)this.color4[0], (float)this.color4[1], (float)this.color4[2], (float)this.color4[3]);
 
             this.colors = new float[]{
-                    Colors1[0], Colors1[1], Colors1[2],
+                    Colors1[0], Colors1[1], Colors2[2],
                     Colors2[0], Colors2[1], Colors2[2],
                     Colors3[0], Colors3[1], Colors3[2],
                     Colors4[0], Colors4[1], Colors4[2]
