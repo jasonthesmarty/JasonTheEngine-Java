@@ -12,7 +12,7 @@ import java.nio.IntBuffer;
 public class JTEimage {
 
     private int[] width, height, channels;
-    private int VAO, VBO, IBO, IMGBO;
+    private int VAO, VBO, IBO, CBO, IMGBO;
     private int textureID;
     float[] vertices, texture, colors;
     int[] indices;
@@ -23,7 +23,7 @@ public class JTEimage {
         this.filename = filename;
     }
 
-    public void render() {
+    public void render(int colorOption, JTEshaders shader) {
         IntBuffer width = BufferUtils.createIntBuffer(1);
         IntBuffer height = BufferUtils.createIntBuffer(1);
         IntBuffer channels = BufferUtils.createIntBuffer(1);
@@ -41,15 +41,20 @@ public class JTEimage {
         GL30.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL30.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 
+        if (colorOption == 0) {
+            GL30.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, width.get(0), height.get(0), 0, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, imageData);
+        }
+        else if (colorOption == 1) {
+            GL30.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width.get(0), height.get(0), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, imageData);
+        }
 
-        GL30.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width.get(0), height.get(0), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, imageData);
         GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 
         STBImage.stbi_image_free(imageData);
 
         this.vertices = new float[] {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f};
         this.indices = new int[] {0, 1, 3, 3, 1, 2};
-        this.colors = new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+        this.colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
         this.texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
 
         VAO = GL30.glGenVertexArrays();
@@ -64,6 +69,11 @@ public class JTEimage {
         GL30.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
         GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
 
+        CBO = GL30.glGenBuffers();
+        GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, CBO);
+        GL30.glBufferData(GL15.GL_ARRAY_BUFFER, colors, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
+
         IMGBO = GL30.glGenBuffers();
         GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, IMGBO);
         GL30.glBufferData(GL15.GL_ARRAY_BUFFER, texture, GL15.GL_STATIC_DRAW);
@@ -71,6 +81,7 @@ public class JTEimage {
 
         GL30.glBindVertexArray(VAO);
         GL30.glEnableVertexAttribArray(0);
+        GL30.glEnableVertexAttribArray(1);
 
         GL30.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 
@@ -89,5 +100,7 @@ public class JTEimage {
         GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
         GL30.glDeleteBuffers(VBO);
         GL30.glDeleteBuffers(IBO);
+        GL30.glDeleteBuffers(CBO);
+        GL30.glDeleteBuffers(IMGBO);
     }
 }
