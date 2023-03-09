@@ -9,5 +9,5 @@ in vec2 textCoords;
 uniform sampler2D tex0;
 
 void main() {
-    gl_FragColor = vertexColor + texture(tex0, textCoords);
+    gl_FragColor = texture2D(tex0, textCoords) * vertexColor;
 }
