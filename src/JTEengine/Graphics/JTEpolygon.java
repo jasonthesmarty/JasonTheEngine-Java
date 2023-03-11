@@ -1,17 +1,24 @@
 package JTEengine.Graphics;
 
+import JTEengine.Shaders.JTEshaders;
 import JTEengine.Window.JTEwindow;
+
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.BufferUtils;
+
+import java.nio.ByteBuffer;
 
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEpolygon {
 
     private float [] vertices, colors;
     private int[] indices;
-    private int type, red, green, blue, alpha;
+    private final int type;
+    private int red, green, blue, alpha;
     private float x, y, width, height;
     private int[] color;
     private int[] color1, color2, color3, color4;
@@ -61,9 +68,9 @@ public class JTEpolygon {
         this.type = 4;
     }
 
-    public void render() {
+    public void render(JTEshaders shader) {
         if (this.type == 1) {
-            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors, shader);
             shapeBuffer.render();
         }
         else if (this.type == 2) {
@@ -77,7 +84,7 @@ public class JTEpolygon {
                     Colors[0], Colors[1], Colors[2]
             };
 
-            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors, shader);
             shapeBuffer.render();
         }
         else if (this.type == 3) {
@@ -91,7 +98,7 @@ public class JTEpolygon {
                     Colors[0], Colors[1], Colors[2]
             };
 
-            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors, shader);
             shapeBuffer.render();
         }
         else if (this.type == 4) {
@@ -109,7 +116,7 @@ public class JTEpolygon {
                     Colors4[0], Colors4[1], Colors4[2]
             };
 
-            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors);
+            shapeBuffer = new JTEshapeBuffer(this.vertices, this.indices, this.colors, shader);
             shapeBuffer.render();
         }
     }
@@ -287,9 +294,10 @@ class JTEshapeBuffer {
 
     private final int VAO, VBO, IBO, CBO;
     float[] vertices;
+    int textureID;
     int[] indices;
 
-    public JTEshapeBuffer(float[] vertices, int[] indices, float[] colors) {
+    public JTEshapeBuffer(float[] vertices, int[] indices, float[] colors, JTEshaders shader) {
         this.vertices = vertices;
         this.indices = indices;
 
@@ -309,12 +317,26 @@ class JTEshapeBuffer {
         GL30.glBindBuffer(GL15.GL_ARRAY_BUFFER, CBO);
         GL30.glBufferData(GL15.GL_ARRAY_BUFFER, colors, GL15.GL_STATIC_DRAW);
         GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
+
+        // Thank you CHAT GPT!
+
+        textureID = GL11.glGenTextures();
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+        ByteBuffer buffer = BufferUtils.createByteBuffer(4);
+        buffer.put((byte) 255).put((byte) 255).put((byte) 255).put((byte) 255).flip();
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, 1, 1, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+
+        int textureUniformId = GL20.glGetUniformLocation(shader.getShader(), "tex0");
+        GL20.glUniform1i(textureUniformId, 0);
     }
 
     public void render() {
         GL30.glBindVertexArray(VAO);
         GL30.glEnableVertexAttribArray(0);
         GL30.glEnableVertexAttribArray(1);
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 
         GL30.glDrawElements(GL11.GL_TRIANGLES, this.indices.length, GL11.GL_UNSIGNED_INT, 0);
     }
