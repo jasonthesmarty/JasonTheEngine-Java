@@ -23,7 +23,7 @@ public class Main {
 
         JTEpolygon poly = new JTEpolygon(window, 100, 100, 200, 200, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA, COLOR_WHITE_RGBA, COLOR_BLACK_RGBA);
 
-        JTEimage image = new JTEimage("..\\JasonTheEngine\\src\\awesomeface.png");
+        JTEimage image = new JTEimage("..\\JasonTheEngine\\src\\assets\\testcard.png");
 
         JTEstandard std = new JTEstandard();
 
@@ -34,9 +34,16 @@ public class Main {
 
             window.changeColor(25, 125, 250, 255);
 
-            poly.render();
+            //poly.render(shaders);
 
-            image.render();
+            float[] windowPos = window.getMousePosition();
+
+            poly.setX((int)windowPos[0]);
+            poly.setY((int)windowPos[1]);
+
+            window.FPS();
+
+            //image.render(0, shaders);
 
             if (input.keyDown(256)) {
                 break;
@@ -45,7 +52,7 @@ public class Main {
             shaders.stopShaders();
             window.update();
         }
-        //image.terminate();
+        image.terminate();
 
         poly.terminate();
 
