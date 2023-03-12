@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL20;
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEshaders {
 
-    private String vertexShaderCode, fragmentShaderCode;
+    private final String vertexShaderCode, fragmentShaderCode;
     private int vertexShader, fragmentShader, shaderProgram;
 
     JTEstandard std = new JTEstandard();

@@ -8,12 +8,12 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
 @SuppressWarnings({"unused", "SpellCheckingInspection"})
 public class JTEinput {
 
-    private GLFWKeyCallback keyboard;
-    private GLFWMouseButtonCallback mouse;
-    private GLFWCursorPosCallback position;
+    private final GLFWKeyCallback keyboard;
+    private final GLFWMouseButtonCallback mouse;
+    private final GLFWCursorPosCallback position;
 
-    private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
-    private static boolean[] buttons = new boolean[GLFW.GLFW_KEY_LAST];
+    private final static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
+    private final static boolean[] buttons = new boolean[GLFW.GLFW_KEY_LAST];
     private static double mouseXpos, mouseYpos;
 
     // Constructor
