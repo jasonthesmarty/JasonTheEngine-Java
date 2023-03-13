@@ -1,5 +1,6 @@
 package JTEengine.Window;
 
+import JTEengine.Standard.JTEstandard;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -13,6 +14,7 @@ public class JTEwindow {
     private double seconds;
 
     JTEinput input = new JTEinput();
+    JTEstandard std = new JTEstandard();
 
     // Constructor
 
@@ -75,68 +77,18 @@ public class JTEwindow {
         GLFW.glfwTerminate();
     }
 
-    private float[] FloatToFloatColor(float red, float green, float blue, float alpha) {
-        float[] colors = {red, green, blue, alpha};
-
-        // Red
-        if (colors[0] > 255) {
-            throw new IllegalArgumentException("RGB value: Red too high ( red > 255 ).");
-        }
-        else if (colors[0] < 0) {
-            throw new IllegalArgumentException("RGB value: Red too high ( red < 0 ).");
-        }
-        else {
-            colors[0] = colors[0]/255;
-        }
-
-        // Green
-        if (colors[1] > 255) {
-            throw new IllegalArgumentException("RGB value: Green too high ( green > 255 ).");
-        }
-        else if (colors[1] < 0) {
-            throw new IllegalArgumentException("RGB value: Green too high ( green < 0 ).");
-        }
-        else {
-            colors[1] = colors[1]/255;
-        }
-
-        // Blue
-        if (colors[2] > 255) {
-            throw new IllegalArgumentException("RGB value: Blue too high ( blue > 255 ).");
-        }
-        else if (colors[2] < 0) {
-            throw new IllegalArgumentException("RGB value: Blue too high ( blue < 0 ).");
-        }
-        else {
-            colors[2] = colors[2]/255;
-        }
-
-        // Alpha
-        if (colors[3] > 255) {
-            throw new IllegalArgumentException("Alpha value: Alpha too high ( alpha > 255 ).");
-        }
-        else if (colors[3] < 0) {
-            throw new IllegalArgumentException("Alpha value: Alpha too high ( alpha < 0 ).");
-        }
-        else {
-            colors[3] = colors[3]/255;
-        }
-
-        return colors;
-    }
-
     public void changeColor(float red, float green, float blue, float alpha) {
-        float[] colors = FloatToFloatColor(red, green, blue, alpha);
+        float[] colors = std.RGBAtoNormalized(red, green, blue, alpha);
         GL11.glClearColor(colors[0], colors[1], colors[2], colors[3]);
     }
 
     public void changeColor(float red, float green, float blue) {
-        float[] colors = FloatToFloatColor(red, green, blue, 255);
+        float[] colors = std.RGBAtoNormalized(red, green, blue, 255);
         GL11.glClearColor(colors[0], colors[1], colors[2], colors[3]);
     }
 
     public void changeColor(float[] color) {
-        float[] colors = FloatToFloatColor(color[0], color[1], color[2], color[3]);
+        float[] colors = std.RGBAtoNormalized(color[0], color[1], color[2], color[3]);
         GL11.glClearColor(colors[0], colors[1], colors[2], colors[3]);
     }
 
