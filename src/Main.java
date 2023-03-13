@@ -1,6 +1,7 @@
 import JTEengine.Graphics.JTEimage;
 import JTEengine.Graphics.JTEpolygon;
 import JTEengine.Shaders.JTEshaders;
+import JTEengine.Standard.JTEdebug;
 import JTEengine.Standard.JTEstandard;
 import JTEengine.Window.JTEinput;
 import JTEengine.Window.JTEwindow;
@@ -28,6 +29,8 @@ public class Main {
 
         JTEstandard std = new JTEstandard();
 
+        JTEdebug debug = new JTEdebug(window);
+
         while(!window.close()) {
             window.clearColorGL();
             window.updateGLViewport();
@@ -42,10 +45,11 @@ public class Main {
             poly.setX((int)windowPos[0]);
             poly.setY((int)windowPos[1]);
 
+            debug.render();
+
             std.debugMenu(window, 1f);
 
             image.render(shaders);
-            image2.render(shaders);
 
             if (input.keyDown(256)) {
                 break;
@@ -61,6 +65,7 @@ public class Main {
 
         poly.terminate();
 
+        debug.terminate();
         shaders.terminate();
         input.terminate();
         window.terminate();
