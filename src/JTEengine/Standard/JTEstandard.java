@@ -65,6 +65,91 @@ public class JTEstandard {
         }
     }
 
+    public float[] RGBAtoNormalized(float red, float green, float blue, float alpha) {
+        float[] colors = {red, green, blue, alpha};
+
+        // Red
+        if (colors[0] > 255) {
+            throw new IllegalArgumentException("RGB value: Red too high ( red > 255 ).");
+        }
+        else if (colors[0] < 0) {
+            throw new IllegalArgumentException("RGB value: Red too high ( red < 0 ).");
+        }
+        else {
+            colors[0] = colors[0]/255;
+        }
+
+        // Green
+        if (colors[1] > 255) {
+            throw new IllegalArgumentException("RGB value: Green too high ( green > 255 ).");
+        }
+        else if (colors[1] < 0) {
+            throw new IllegalArgumentException("RGB value: Green too high ( green < 0 ).");
+        }
+        else {
+            colors[1] = colors[1]/255;
+        }
+
+        // Blue
+        if (colors[2] > 255) {
+            throw new IllegalArgumentException("RGB value: Blue too high ( blue > 255 ).");
+        }
+        else if (colors[2] < 0) {
+            throw new IllegalArgumentException("RGB value: Blue too high ( blue < 0 ).");
+        }
+        else {
+            colors[2] = colors[2]/255;
+        }
+
+        // Alpha
+        if (colors[3] > 255) {
+            throw new IllegalArgumentException("Alpha value: Alpha too high ( alpha > 255 ).");
+        }
+        else if (colors[3] < 0) {
+            throw new IllegalArgumentException("Alpha value: Alpha too high ( alpha < 0 ).");
+        }
+        else {
+            colors[3] = colors[3]/255;
+        }
+
+        return colors;
+    }
+
+    public float[] PixelsToNormalizedCoords(float x, float y, JTEwindow window) {
+        if (x > window.getWidth() || x < 0) {
+            argumentException("Illegal x value");
+        }
+        if (y > window.getWidth() || y < 0) {
+            argumentException("Illegal y value");
+        }
+
+        float widthHalved = window.getWidth()/2f;
+        float heightHalved = window.getHeight()/2f;
+
+        float X = ((1 - (x / widthHalved)) * -1);
+        float Y = (1 - (y / heightHalved));
+
+        return new float[] {X, Y};
+    }
+
+    public float[] PixelsToNormalizedCoordsQuad(float x, float y, float width, float height, JTEwindow window) {
+        float widthHalved = window.getWidth()/2f;
+        float heightHalved = window.getHeight()/2f;
+
+        float X = ((1 - (x / widthHalved)) * -1);
+        float Y = (1 - (y / heightHalved));
+
+        float Width = (width/widthHalved);
+        float Height = (height/heightHalved);
+
+        return new float[] {
+                X, Y, 0.0f,
+                X + Width, Y, 0.0f,
+                X + Width, Y - Height, 0.0f,
+                X, Y - Height, 0.0f
+        };
+    }
+
     public void print(int number) {
         System.out.println(number);
     }
