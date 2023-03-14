@@ -4,6 +4,9 @@ import JTEengine.Standard.JTEstandard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
+import java.io.File;
+import java.net.URL;
+
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEshaders {
 
@@ -13,8 +16,13 @@ public class JTEshaders {
     JTEstandard std = new JTEstandard();
 
     public JTEshaders() {
-        this.vertexShaderCode = std.fileContents("..\\JasonTheEngine\\src\\JTEengine\\Shaders\\vertex.vert");
-        this.fragmentShaderCode = std.fileContents("..\\JasonTheEngine\\src\\JTEengine\\Shaders\\fragment.frag");
+        URL vert = JTEshaders.class.getResource("vertex.vert");
+        URL frag = JTEshaders.class.getResource("fragment.frag");
+
+        assert vert != null;
+        assert frag != null;
+        this.vertexShaderCode = std.fileContents(vert.getPath());
+        this.fragmentShaderCode = std.fileContents(frag.getPath());
     }
 
     public void createShaders() {
