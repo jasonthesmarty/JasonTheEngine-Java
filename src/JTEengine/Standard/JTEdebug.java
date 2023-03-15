@@ -106,10 +106,6 @@ public class JTEdebug {
             versionM.setBounds(625, 25, 800, 20);
             versionD.setBounds(625, 45, 800, 20);
 
-            secondsElapsed.setText(timeElapsed);
-            secondsElapsed.setBounds(25, 25, 800, 20);
-            frame.add(secondsElapsed);
-
             FPS.setText(Fps);
             FPS.setBounds(25, 60, 800, 20);
 
@@ -130,6 +126,10 @@ public class JTEdebug {
 
             GC.setBounds(550,520,200,30);
             GC.addActionListener(e -> System.gc());
+
+            secondsElapsed.setText(timeElapsed);
+            secondsElapsed.setBounds(25, 25, 800, 20);
+            frame.add(secondsElapsed);
         }
     }
 
