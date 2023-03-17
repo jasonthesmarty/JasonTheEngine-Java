@@ -21,7 +21,7 @@ public class JTEdebug {
     private final JButton GC;
     private double seconds = 0;
     private final double startTime = GLFW.glfwGetTime();
-    private JTEwindow window;
+    private final JTEwindow window;
     private int frames;
     private final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
