@@ -13,21 +13,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEimage {
 
     private int VAO, VBO, IBO, CBO, IMGBO;
-    float[] vertices, texture, colors;
-    int[] indices;
-    float x, y, width, height, type;
-    JTEshaders shader;
-    String filename;
-    JTEstandard std = new JTEstandard();
-    JTEwindow window;
-    String newName;
+    private float x, y, width, height;
+    private final float type;
+    private float widthMutiplier = 1;
+    private float heightMutiplier = 1;
+    private JTEshaders shader;
+    private final String filename;
+    private final JTEstandard std = new JTEstandard();
+    private JTEwindow window;
+    private final String newName;
 
     @Deprecated
     public JTEimage(String path) {
@@ -60,6 +59,10 @@ public class JTEimage {
     }
 
     public void render(JTEshaders shader) {
+        float[] vertices;
+        float[] texture;
+        float[] colors;
+        int[] indices;
         if (this.type == 1) {
             IntBuffer width = BufferUtils.createIntBuffer(1);
             IntBuffer height = BufferUtils.createIntBuffer(1);
@@ -84,10 +87,10 @@ public class JTEimage {
             assert imageData != null;
             STBImage.stbi_image_free(imageData);
 
-            this.vertices = new float[] {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f};
-            this.indices = new int[] {0, 1, 3, 3, 1, 2};
-            this.colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-            this.texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
+            vertices = new float[] {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f};
+            indices = new int[] {0, 1, 3, 3, 1, 2};
+            colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+            texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
 
             VAO = GL30.glGenVertexArrays();
             GL30.glBindVertexArray(VAO);
@@ -119,7 +122,7 @@ public class JTEimage {
 
             GL30.glEnableVertexAttribArray(2);
 
-            GL30.glDrawElements(GL11.GL_TRIANGLES, this.indices.length, GL11.GL_UNSIGNED_INT, 0);
+            GL30.glDrawElements(GL11.GL_TRIANGLES, indices.length, GL11.GL_UNSIGNED_INT, 0);
         }
         else if (this.type == 2) {
             IntBuffer width = BufferUtils.createIntBuffer(1);
@@ -144,10 +147,10 @@ public class JTEimage {
             assert imageData != null;
             STBImage.stbi_image_free(imageData);
 
-            this.vertices = std.PixelsToNormalizedCoordsQuad(x, y, width.get(0), height.get(0),this.window);
-            this.indices = new int[] {0, 1, 3, 3, 1, 2};
-            this.colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-            this.texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
+            vertices = std.PixelsToNormalizedCoordsQuad(x, y, width.get(0)*this.widthMutiplier, height.get(0)*this.heightMutiplier, this.window);
+            indices = new int[] {0, 1, 3, 3, 1, 2};
+            colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+            texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
 
             VAO = GL30.glGenVertexArrays();
             GL30.glBindVertexArray(VAO);
@@ -179,7 +182,7 @@ public class JTEimage {
 
             GL30.glEnableVertexAttribArray(2);
 
-            GL30.glDrawElements(GL11.GL_TRIANGLES, this.indices.length, GL11.GL_UNSIGNED_INT, 0);
+            GL30.glDrawElements(GL11.GL_TRIANGLES, indices.length, GL11.GL_UNSIGNED_INT, 0);
         }
         else if (this.type == 3) {
             IntBuffer width = BufferUtils.createIntBuffer(1);
@@ -204,10 +207,10 @@ public class JTEimage {
             assert imageData != null;
             STBImage.stbi_image_free(imageData);
 
-            this.vertices = std.PixelsToNormalizedCoordsQuad(x, y, this.width, this.height, this.window);
-            this.indices = new int[] {0, 1, 3, 3, 1, 2};
-            this.colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-            this.texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
+            vertices = std.PixelsToNormalizedCoordsQuad(x, y, this.width*this.widthMutiplier, this.height*this.heightMutiplier, this.window);
+            indices = new int[] {0, 1, 3, 3, 1, 2};
+            colors = new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+            texture = new float[] {0, 0, 1, 0, 1, 1, 0, 1};
 
             VAO = GL30.glGenVertexArrays();
             GL30.glBindVertexArray(VAO);
@@ -239,7 +242,7 @@ public class JTEimage {
 
             GL30.glEnableVertexAttribArray(2);
 
-            GL30.glDrawElements(GL11.GL_TRIANGLES, this.indices.length, GL11.GL_UNSIGNED_INT, 0);
+            GL30.glDrawElements(GL11.GL_TRIANGLES, indices.length, GL11.GL_UNSIGNED_INT, 0);
         }
     }
 
@@ -286,5 +289,18 @@ public class JTEimage {
         } catch (IOException io) {
             io.printStackTrace();
         }
+    }
+
+    public void setMultiplierWidth(float widthMutiplier) {
+        this.widthMutiplier = widthMutiplier;
+    }
+
+    public void setMultiplierHeight(float heightMutiplier) {
+        this.heightMutiplier = heightMutiplier;
+    }
+
+    public void setImageSizeMultiplier(float widthMutiplier, float heightMutiplier) {
+        this.widthMutiplier = widthMutiplier;
+        this.heightMutiplier = heightMutiplier;
     }
 }
