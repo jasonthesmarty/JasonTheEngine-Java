@@ -6,7 +6,7 @@ public class JTEvariables {
     // Versions
 
     public static final String VERSION_M = "VERSION_5W23";
-    public static final String VERSION_D = "VERSION_5W23_0316a";
+    public static final String VERSION_D = "VERSION_5W23_0316b";
 
     // Constants:
 
