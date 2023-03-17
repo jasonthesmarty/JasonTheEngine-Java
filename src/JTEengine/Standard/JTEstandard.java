@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -148,6 +149,28 @@ public class JTEstandard {
                 X + Width, Y - Height, 0.0f,
                 X, Y - Height, 0.0f
         };
+    }
+
+    public String findFilenameFromPath(String path) {
+        ArrayList<String> filenameList = new ArrayList<>(Arrays.asList(path.split("")));
+
+        int lastSlashPlace = 0, periodPlace = 0;
+
+        for (int i = 0; i < filenameList.size(); i ++) {
+            if (filenameList.get(i).equals("\\")) {
+                lastSlashPlace = i;
+            }
+            if (filenameList.get(i).equals(".")) {
+                periodPlace = i;
+            }
+        }
+
+        StringBuilder name = new StringBuilder();
+        for (int j = lastSlashPlace+1; j < periodPlace; j++) {
+            name.append(filenameList.get(j));
+        }
+
+        return name.toString();
     }
 
     public void print(int number) {
