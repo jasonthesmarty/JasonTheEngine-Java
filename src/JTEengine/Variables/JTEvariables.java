@@ -3,12 +3,16 @@ package JTEengine.Variables;
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class JTEvariables {
 
-    // Colors:
+    // Versions
 
     public static final String VERSION_M = "VERSION_5W23";
-    public static final String VERSION_D = "VERSION_5W23_0314a";
+    public static final String VERSION_D = "VERSION_5W23_0316a";
+
+    // Constants:
 
     public static final double PI = 3.1415926535897932384d;
+
+    // Colors:
 
     public static final int[] COLOR_RED_RGBA = {255, 0, 0, 255};
     public static final int[] COLOR_ORANGE_RGBA = {255, 165, 0, 255};
