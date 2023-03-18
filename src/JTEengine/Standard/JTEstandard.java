@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 @SuppressWarnings({"unused", "SpellCheckingInspection"})
@@ -173,6 +174,12 @@ public class JTEstandard {
         return name.toString();
     }
 
+    // Print
+
+    public void print() {
+        System.out.println();
+    }
+
     public void print(int number) {
         System.out.println(number);
     }
@@ -237,13 +244,15 @@ public class JTEstandard {
         System.out.println(Arrays.toString(bools));
     }
 
-    public void print(Object string) {
-        System.out.println(string);
+    public void print(Object object) {
+        System.out.println(object);
     }
 
     public void print(Object[] objects) {
         System.out.println(Arrays.toString(objects));
     }
+
+    // Exceptions
 
     public void argumentException(String string) {
         throw new IllegalArgumentException(string);
@@ -253,4 +262,80 @@ public class JTEstandard {
         throw new RuntimeException(string);
     }
 
+    // Changers - String
+
+    public String string(char chars) {
+        return Character.toString(chars);
+    }
+
+    public String string(char[] chars) {
+        return Arrays.toString(chars);
+    }
+
+    public String string(int integer) {
+        return Integer.toString(integer);
+    }
+
+    public String string(int[] integers) {
+        return Arrays.toString(integers);
+    }
+
+    public String string(short shorter) {
+        return Short.toString(shorter);
+    }
+
+    public String string(short[] shorter) {
+        return Arrays.toString(shorter);
+    }
+
+    public String string(long longer) {
+        return Long.toString(longer);
+    }
+
+    public String string(long[] longers) {
+        return Arrays.toString(longers);
+    }
+
+    public String string(float floater) {
+        return Float.toString(floater);
+    }
+
+    public String string(float[] floaters) {
+        return Arrays.toString(floaters);
+    }
+
+    public String string(double doubler) {
+        return Double.toString(doubler);
+    }
+
+    public String string(double[] doublers) {
+        return Arrays.toString(doublers);
+    }
+
+    public String string(boolean bool) {
+        return Boolean.toString(bool);
+    }
+
+    public String string(boolean[] bools) {
+        return Arrays.toString(bools);
+    }
+
+    public String string(byte bytes) {
+        return Byte.toString(bytes);
+    }
+
+    public String string(byte[] bytes) {
+        return Arrays.toString(bytes);
+    }
+
+    public String string(Object object) {
+        return Objects.toString(object);
+    }
+
+    public String string(Object[] objects) {
+        return Arrays.toString(objects);
+    }
+
+
 }
+
